@@ -2,6 +2,8 @@
   "src": [
     "pages/Index",
     "pages/CreateTask",
-    "pages/AIChat"
+    "pages/AIChat",
+    "pages/MyTasks",
+    "pages/Settings"
   ]
 }

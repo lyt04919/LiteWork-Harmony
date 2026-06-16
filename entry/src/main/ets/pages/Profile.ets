@@ -61,10 +61,10 @@ export struct Profile {
       // Settings List
       Column({ space: 16 }) {
         this.SettingItem('我的任务', $r('app.media.startIcon'), '', () => {
-          promptAction.showToast({ message: '功能开发中...', duration: 2000 })
+          router.pushUrl({ url: 'pages/MyTasks' })
         })
         this.SettingItem('系统设置', $r('app.media.startIcon'), '', () => {
-          promptAction.showToast({ message: '功能开发中...', duration: 2000 })
+          router.pushUrl({ url: 'pages/Settings' })
         })
       }.width('90%')
       }.width('100%')
