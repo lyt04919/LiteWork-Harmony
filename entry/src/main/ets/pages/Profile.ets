@@ -3,19 +3,19 @@ import { Task } from '../utils/TaskStore';
 
 @Component
 export struct Profile {
-  @StorageLink('globalTasks') tasks: Task[] = [];
+  @StorageLink('globalTasks') @Watch('onTasksChange') tasks: Task[] = [];
+  @State completedCount: number = 0;
+  @State totalCount: number = 0;
+  @State completionRate: number = 0;
 
-  get completedCount(): number {
-    return this.tasks.filter(t => t.status === '已完成').length;
+  onTasksChange() {
+    this.totalCount = (this.tasks || []).length;
+    this.completedCount = (this.tasks || []).filter(t => t.status === '已完成').length;
+    this.completionRate = this.totalCount === 0 ? 0 : Math.round((this.completedCount / this.totalCount) * 100);
   }
 
-  get totalCount(): number {
-    return this.tasks.length;
-  }
-
-  get completionRate(): number {
-    if (this.totalCount === 0) return 0;
-    return Math.round((this.completedCount / this.totalCount) * 100);
+  aboutToAppear() {
+    this.onTasksChange();
   }
   build() {
     Scroll() {
