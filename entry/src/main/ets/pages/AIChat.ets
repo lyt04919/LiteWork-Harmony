@@ -29,7 +29,7 @@ export class AIRequestPayload {
 
 @Entry
 @Component
-struct AIChat {
+export struct AIChat {
   @State messages: ChatMessage[] = [
     new ChatMessage('ai', '您好！我是您的智能专属客服助手。请问有什么我可以帮您的？您可以询问关于订单状态、产品使用说明或退换货政策等问题。')
   ];
@@ -41,7 +41,7 @@ struct AIChat {
     Column() {
       // Header
       Row() {
-        Image($r('app.media.startIcon')).width(24).height(24).margin({ right: 16 }).onClick(() => router.back())
+        Image($r('app.media.startIcon')).width(24).height(24).margin({ right: 16 })
         Column() {
           Text('AI 客服助手').fontSize(20).fontWeight(FontWeight.Bold).fontColor('#1E293B')
           Text('在线').fontSize(12).fontColor('#64748B')

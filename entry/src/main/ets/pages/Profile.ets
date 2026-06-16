@@ -1,4 +1,5 @@
 import router from '@ohos.router';
+import promptAction from '@ohos.promptAction';
 import { Task } from '../utils/TaskStore';
 
 @Component
@@ -59,10 +60,11 @@ export struct Profile {
 
       // Settings List
       Column({ space: 16 }) {
-        this.SettingItem('我的任务', $r('app.media.startIcon'))
-        this.SettingItem('系统设置', $r('app.media.startIcon'))
-        this.SettingItem('AI智能客服', $r('app.media.startIcon'), '24小时在线协助', () => {
-          router.pushUrl({ url: 'pages/AIChat' })
+        this.SettingItem('我的任务', $r('app.media.startIcon'), '', () => {
+          promptAction.showToast({ message: '功能开发中...', duration: 2000 })
+        })
+        this.SettingItem('系统设置', $r('app.media.startIcon'), '', () => {
+          promptAction.showToast({ message: '功能开发中...', duration: 2000 })
         })
       }.width('90%')
       }.width('100%')

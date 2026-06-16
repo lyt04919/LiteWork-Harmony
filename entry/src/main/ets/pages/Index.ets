@@ -1,5 +1,6 @@
 import { TaskBoard } from './TaskBoard';
 import { Profile } from './Profile';
+import { AIChat } from './AIChat';
 import { TaskStore } from '../utils/TaskStore';
 import common from '@ohos.app.ability.common';
 
@@ -22,8 +23,12 @@ struct Index {
       }.tabBar(this.TabBuilder('首页看板', 0, $r('app.media.startIcon')))
 
       TabContent() {
+        AIChat()
+      }.tabBar(this.TabBuilder('AI助理', 1, $r('app.media.startIcon')))
+
+      TabContent() {
         Profile()
-      }.tabBar(this.TabBuilder('我的', 1, $r('app.media.startIcon')))
+      }.tabBar(this.TabBuilder('我的', 2, $r('app.media.startIcon')))
     }
     .onChange((index: number) => {
       this.currentIndex = index;
