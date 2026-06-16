@@ -13,3 +13,5 @@
 /harmonySDK
 /huaweiPhone
 /productConfig.json
+.DS_Store
+**/.DS_Store
