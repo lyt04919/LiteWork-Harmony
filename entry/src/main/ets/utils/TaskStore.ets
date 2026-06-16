@@ -33,7 +33,7 @@ export class TaskStore {
     if (!this.initPromise) {
       this.initPromise = preferences.getPreferences(context, PREF_NAME).then(pref => {
         this.pref = pref;
-      }).catch(err => {
+      }).catch((err: Error) => {
         console.error('Failed to init preferences', err);
       });
     }
@@ -46,7 +46,7 @@ export class TaskStore {
     try {
       let tasksStr = await this.pref.get(TASK_KEY, '[]') as string;
       let tasks = JSON.parse(tasksStr) as Task[];
-      AppStorage.SetOrCreate('globalTasks', tasks);
+      AppStorage.setOrCreate('globalTasks', tasks);
       return tasks;
     } catch (err) {
       console.error('Failed to get tasks', err);
@@ -60,7 +60,7 @@ export class TaskStore {
     try {
       await this.pref.put(TASK_KEY, JSON.stringify(tasks));
       await this.pref.flush();
-      AppStorage.SetOrCreate('globalTasks', tasks);
+      AppStorage.setOrCreate('globalTasks', tasks);
     } catch (err) {
       console.error('Failed to save tasks', err);
     }
