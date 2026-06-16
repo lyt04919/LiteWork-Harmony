@@ -27,15 +27,21 @@ export class TaskStore {
     return TaskStore.instance;
   }
 
+  private initPromise: Promise<void> | null = null;
+
   public async init(context: common.UIAbilityContext): Promise<void> {
-    try {
-      this.pref = await preferences.getPreferences(context, PREF_NAME);
-    } catch (err) {
-      console.error('Failed to init preferences', err);
+    if (!this.initPromise) {
+      this.initPromise = preferences.getPreferences(context, PREF_NAME).then(pref => {
+        this.pref = pref;
+      }).catch(err => {
+        console.error('Failed to init preferences', err);
+      });
     }
+    await this.initPromise;
   }
 
   public async getTasks(): Promise<Task[]> {
+    if (this.initPromise) await this.initPromise;
     if (!this.pref) return [];
     try {
       let tasksStr = await this.pref.get(TASK_KEY, '[]') as string;
@@ -49,6 +55,7 @@ export class TaskStore {
   }
 
   public async saveTasks(tasks: Task[]): Promise<void> {
+    if (this.initPromise) await this.initPromise;
     if (!this.pref) return;
     try {
       await this.pref.put(TASK_KEY, JSON.stringify(tasks));

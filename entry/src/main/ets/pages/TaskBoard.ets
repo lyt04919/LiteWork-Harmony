@@ -4,7 +4,7 @@ import { Task, TaskStore } from '../utils/TaskStore';
 
 @Component
 export struct TaskBoard {
-  @State tasks: Task[] = [];
+  @StorageLink('globalTasks') tasks: Task[] = [];
   @State currentStatus: string = '待办';
   @State searchText: string = '';
   @State currentAssignee: string = '全部';
