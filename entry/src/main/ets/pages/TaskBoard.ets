@@ -41,7 +41,7 @@ export struct TaskBoard {
   getFilteredTasks(): Task[] {
     return this.tasks.filter(t =>
       t.status === this.currentStatus &&
-      (t.title.includes(this.searchText) || this.searchText === "") &&
+      (t.title.includes(this.searchText) || t.assignee.includes(this.searchText) || this.searchText === "") &&
       (this.currentAssignee === "全部" || t.assignee === this.currentAssignee)
     );
   }
@@ -277,4 +277,5 @@ export struct TaskBoard {
     })
   }
 }
+
 
