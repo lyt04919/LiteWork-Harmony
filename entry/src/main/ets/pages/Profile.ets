@@ -28,14 +28,14 @@ export struct Profile {
           .height(80)
           .borderRadius(40)
           .margin({ top: 40 })
-          .border({ width: 2, color: '#0066FF' })
-        Text('张伟').fontSize(24).fontWeight(FontWeight.Bold).fontColor('#1E293B')
-        Text('高级产品经理').fontSize(14).fontColor('#64748B')
+          .border({ width: 2, color: $r('app.color.accent') })
+        Text('张伟').fontSize(24).fontWeight(FontWeight.Bold).fontColor($r('app.color.text_primary'))
+        Text('高级产品经理').fontSize(14).fontColor($r('app.color.text_secondary'))
       }.width('100%').alignItems(HorizontalAlign.Center)
 
       // Ring Chart Card
       Column() {
-        Text('本周任务完成度').fontSize(16).fontColor('#1E293B').margin({ bottom: 24 }).width('100%').textAlign(TextAlign.Start)
+        Text('本周任务完成度').fontSize(16).fontColor($r('app.color.text_primary')).margin({ bottom: 24 }).width('100%').textAlign(TextAlign.Start)
         
         Stack() {
           DataPanel({ values: [this.completedCount], max: this.totalCount === 0 ? 1 : this.totalCount, type: DataPanelType.Circle })
@@ -43,48 +43,48 @@ export struct Profile {
             .height(160)
           
           Column() {
-            Text(`${this.completionRate}%`).fontSize(36).fontWeight(FontWeight.Bold).fontColor('#0066FF')
-            Text(`已完成 ${this.completedCount}/${this.totalCount}`).fontSize(12).fontColor('#64748B').margin({ top: 4 })
+            Text(`${this.completionRate}%`).fontSize(36).fontWeight(FontWeight.Bold).fontColor($r('app.color.accent'))
+            Text(`已完成 ${this.completedCount}/${this.totalCount}`).fontSize(12).fontColor($r('app.color.text_secondary')).margin({ top: 4 })
           }
         }
       }
       .width('90%')
       .padding(24)
       .margin({ top: 32, bottom: 24 })
-      .backgroundColor(Color.White)
+      .backgroundColor($r('app.color.bg_card'))
       .borderRadius(16)
-      .shadow({ radius: 10, color: 'rgba(0,0,0,0.05)', offsetY: 4 })
+      .shadow({ radius: 10, color: $r('app.color.shadow_card'), offsetY: 4 })
 
       // Settings List
       Column({ space: 16 }) {
         this.SettingItem('我的任务', $r('app.media.startIcon'), '', () => {
-          router.pushUrl({ url: 'pages/MyTasks' })
+          router.pushUrl({ url: 'pages/MyTasks' }, router.RouterMode.Standard)
         })
         this.SettingItem('系统设置', $r('app.media.startIcon'), '', () => {
-          router.pushUrl({ url: 'pages/Settings' })
+          router.pushUrl({ url: 'pages/Settings' }, router.RouterMode.Standard)
         })
       }.width('90%')
       }.width('100%')
-    }.width('100%').height('100%').backgroundColor('#F5F7FA').scrollable(ScrollDirection.Vertical)
+    }.width('100%').height('100%').backgroundColor($r('app.color.bg_page')).scrollable(ScrollDirection.Vertical)
   }
 
   @Builder SettingItem(title: string, icon: Resource, subtitle?: string, action?: () => void) {
     Row() {
-      Image(icon).width(40).height(40).borderRadius(8).backgroundColor('#E2E8F0').padding(8).margin({ right: 16 })
+      Image(icon).width(40).height(40).borderRadius(8).backgroundColor($r('app.color.bg_avatar_icon')).padding(8).margin({ right: 16 })
       Column() {
-        Text(title).fontSize(16).fontWeight(FontWeight.Medium).fontColor('#1E293B')
+        Text(title).fontSize(16).fontWeight(FontWeight.Medium).fontColor($r('app.color.text_primary'))
         if (subtitle) {
-          Text(subtitle).fontSize(12).fontColor('#0066FF').margin({ top: 4 })
+          Text(subtitle).fontSize(12).fontColor($r('app.color.accent')).margin({ top: 4 })
         }
       }.layoutWeight(1).alignItems(HorizontalAlign.Start)
-      Text('>').fontSize(18).fontColor('#94A3B8') // Chevron icon placeholder
+      Text('>').fontSize(18).fontColor($r('app.color.text_tertiary')) // Chevron icon placeholder
     }
     .width('100%')
     .padding(16)
-    .backgroundColor(Color.White)
+    .backgroundColor($r('app.color.bg_card'))
     .borderRadius(12)
-    .shadow({ radius: 4, color: 'rgba(0,0,0,0.02)', offsetY: 2 })
-    .border({ width: 1, color: '#E2E8F0' })
+    .shadow({ radius: 4, color: $r('app.color.shadow_card'), offsetY: 2 })
+    .border({ width: 1, color: $r('app.color.border_default') })
     .onClick(() => {
       if (action) {
         action();

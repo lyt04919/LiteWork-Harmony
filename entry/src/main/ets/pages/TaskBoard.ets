@@ -92,7 +92,7 @@ export struct TaskBoard {
         // Header
         Row() {
           Image($r('app.media.startIcon')).width(24).height(24).margin({ right: 12 }) // placeholder
-          Text('任务看板').fontSize(24).fontWeight(FontWeight.Bold).fontColor('#0066FF').layoutWeight(1)
+          Text('任务看板').fontSize(24).fontWeight(FontWeight.Bold).fontColor($r('app.color.accent')).layoutWeight(1)
           Image($r('app.media.startIcon')).width(24).height(24).borderRadius(12) // profile icon
         }.width('100%').padding(16).alignItems(VerticalAlign.Center)
 
@@ -101,7 +101,7 @@ export struct TaskBoard {
           TextInput({ placeholder: '搜索任务...' })
             .layoutWeight(1)
             .height(40)
-            .backgroundColor('#f2f4f7')
+            .backgroundColor($r('app.color.bg_input'))
             .borderRadius(12)
             .onChange((value: string) => {
               this.searchText = value;
@@ -118,7 +118,7 @@ export struct TaskBoard {
             .selectedOptionFont({ size: 14 })
             .optionFont({ size: 14 })
             .height(40)
-            .backgroundColor('#f2f4f7')
+            .backgroundColor($r('app.color.bg_input'))
             .borderRadius(12)
             .onSelect((index: number, value: string) => {
               if (value) {
@@ -149,18 +149,18 @@ export struct TaskBoard {
           else this.currentStatus = '已完成';
         })
         .layoutWeight(1)
-      }.width('100%').height('100%').backgroundColor('#F5F7FA')
+      }.width('100%').height('100%').backgroundColor($r('app.color.bg_page'))
 
       // FAB
       Button({ type: ButtonType.Circle, stateEffect: true }) {
-        Text('+').fontSize(32).fontColor(Color.White).margin({ bottom: 4 })
+        Text('+').fontSize(32).fontColor($r('app.color.text_inverse')).margin({ bottom: 4 })
       }
       .width(56).height(56)
-      .backgroundColor('#0066FF')
+      .backgroundColor($r('app.color.accent'))
       .margin({ right: 24, bottom: 24 })
-      .shadow({ radius: 10, color: 'rgba(0,0,0,0.2)', offsetY: 4 })
+      .shadow({ radius: 10, color: $r('app.color.shadow_fab'), offsetY: 4 })
       .onClick(() => {
-        router.pushUrl({ url: 'pages/CreateTask' });
+        router.pushUrl({ url: 'pages/CreateTask' }, router.RouterMode.Standard);
       })
     }
   }
@@ -168,11 +168,11 @@ export struct TaskBoard {
   @Builder TabBuilder(name: string, index: number) {
     Column() {
       Text(name)
-        .fontColor(this.currentStatus === name ? '#1E293B' : '#64748B')
+        .fontColor(this.currentStatus === name ? $r('app.color.text_primary') : $r('app.color.text_secondary'))
         .fontSize(16)
         .fontWeight(this.currentStatus === name ? FontWeight.Bold : FontWeight.Normal)
       if (this.currentStatus === name) {
-        Divider().strokeWidth(2).color('#0066FF').width(20).margin({ top: 4 })
+        Divider().strokeWidth(2).color($r('app.color.accent')).width(20).margin({ top: 4 })
       }
     }.padding({ top: 12, bottom: 12 })
   }
@@ -198,33 +198,33 @@ export struct TaskBoard {
     Column() {
       Row() {
         if (task.priority === '高优先级') {
-          Text(task.priority).fontSize(12).fontColor('#ba1a1a').backgroundColor('#ffdad6').padding(4).borderRadius(4)
+          Text(task.priority).fontSize(12).fontColor($r('app.color.text_priority_high')).backgroundColor($r('app.color.bg_priority_high')).padding(4).borderRadius(4)
         } else {
-          Text('普通').fontSize(12).fontColor('#0054d6').backgroundColor('#dae1ff').padding(4).borderRadius(4)
+          Text('普通').fontSize(12).fontColor($r('app.color.text_priority_normal')).backgroundColor($r('app.color.bg_priority_normal')).padding(4).borderRadius(4)
         }
         Blank()
       }.width('100%').margin({ bottom: 8 })
 
-      Text(task.title).fontSize(18).fontWeight(FontWeight.Bold).fontColor('#1E293B').margin({ bottom: 8 })
+      Text(task.title).fontSize(18).fontWeight(FontWeight.Bold).fontColor($r('app.color.text_primary')).margin({ bottom: 8 })
       if (task.description) {
-        Text(task.description).fontSize(14).fontColor('#64748B').maxLines(2).textOverflow({ overflow: TextOverflow.Ellipsis }).margin({ bottom: 16 })
+        Text(task.description).fontSize(14).fontColor($r('app.color.text_secondary')).maxLines(2).textOverflow({ overflow: TextOverflow.Ellipsis }).margin({ bottom: 16 })
       }
 
       Row() {
-        Text(task.assignee).fontSize(14).fontColor('#1E293B').backgroundColor('#e0e3e6').padding(6).borderRadius(12)
+        Text(task.assignee).fontSize(14).fontColor($r('app.color.text_primary')).backgroundColor($r('app.color.bg_assignee')).padding(6).borderRadius(12)
         Blank()
-        Text(task.dueDate).fontSize(14).fontColor('#64748B')
+        Text(task.dueDate).fontSize(14).fontColor($r('app.color.text_secondary'))
       }.width('100%').margin({ top: 16 })
 
     }
     .width('100%')
     .padding(16)
-    .backgroundColor(Color.White)
+    .backgroundColor($r('app.color.bg_card'))
     .borderRadius(12)
-    .border({ width: 1, color: '#E2E8F0' })
-    .shadow({ radius: 8, color: 'rgba(0,0,0,0.05)', offsetY: 2 })
+    .border({ width: 1, color: $r('app.color.border_default') })
+    .shadow({ radius: 8, color: $r('app.color.shadow_card'), offsetY: 2 })
     .onClick(() => {
-      router.pushUrl({ url: 'pages/CreateTask', params: { task: task } });
+      router.pushUrl({ url: 'pages/CreateTask', params: { task: task } }, router.RouterMode.Standard);
     })
   }
 }

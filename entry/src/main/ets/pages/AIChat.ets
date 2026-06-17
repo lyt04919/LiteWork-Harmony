@@ -43,19 +43,19 @@ export struct AIChat {
       Row() {
         Image($r('app.media.startIcon')).width(24).height(24).margin({ right: 16 })
         Column() {
-          Text('AI 客服助手').fontSize(20).fontWeight(FontWeight.Bold).fontColor('#1E293B')
-          Text('在线').fontSize(12).fontColor('#64748B')
+          Text('AI 客服助手').fontSize(20).fontWeight(FontWeight.Bold).fontColor($r('app.color.text_primary'))
+          Text('在线').fontSize(12).fontColor($r('app.color.text_secondary'))
         }.alignItems(HorizontalAlign.Start)
         Blank()
-        Text('...').fontSize(24).fontColor('#64748B').fontWeight(FontWeight.Bold)
-      }.width('100%').padding(16).backgroundColor(Color.White)
+        Text('...').fontSize(24).fontColor($r('app.color.text_secondary')).fontWeight(FontWeight.Bold)
+      }.width('100%').padding(16).backgroundColor($r('app.color.bg_card'))
       
-      Divider().color('#E2E8F0').strokeWidth(1)
+      Divider().color($r('app.color.border_default')).strokeWidth(1)
 
       // Chat List
       Scroll(this.scroller) {
         Column({ space: 16 }) {
-          Text('今天 10:24 AM').fontSize(12).fontColor('#94A3B8').backgroundColor('#F5F7FA').padding({ top: 4, bottom: 4, left: 12, right: 12 }).borderRadius(16).margin({ top: 16, bottom: 8 })
+          Text('今天 10:24 AM').fontSize(12).fontColor($r('app.color.text_tertiary')).backgroundColor($r('app.color.bg_time_badge')).padding({ top: 4, bottom: 4, left: 12, right: 12 }).borderRadius(16).margin({ top: 16, bottom: 8 })
 
           ForEach(this.messages, (msg: ChatMessage) => {
             Row() {
@@ -63,16 +63,16 @@ export struct AIChat {
                 Image($r('app.media.startIcon')).width(36).height(36).borderRadius(18).margin({ right: 12 })
                 Text(msg.content)
                   .fontSize(16)
-                  .fontColor('#1E293B')
-                  .backgroundColor('#EDF2F7')
+                  .fontColor($r('app.color.text_primary'))
+                  .backgroundColor($r('app.color.bg_ai_message'))
                   .padding(16)
                   .borderRadius({ topLeft: 12, topRight: 12, bottomLeft: 2, bottomRight: 12 })
                   .layoutWeight(1)
               } else {
                 Text(msg.content)
                   .fontSize(16)
-                  .fontColor(Color.White)
-                  .backgroundColor('#0066FF')
+                  .fontColor($r('app.color.text_inverse'))
+                  .backgroundColor($r('app.color.accent'))
                   .padding(16)
                   .borderRadius({ topLeft: 12, topRight: 12, bottomLeft: 12, bottomRight: 2 })
                   .layoutWeight(1)
@@ -88,27 +88,27 @@ export struct AIChat {
         TextInput({ placeholder: '请输入问题...', text: this.inputText })
           .layoutWeight(1)
           .height(44)
-          .backgroundColor('#F5F7FA')
+          .backgroundColor($r('app.color.bg_time_badge'))
           .borderRadius(22)
-          .border({ width: 1, color: '#CBD5E1' })
+          .border({ width: 1, color: $r('app.color.border_input') })
           .onChange((val) => this.inputText = val)
           .onSubmit(() => this.sendMessage())
         
         Button() {
-          Text('发送').fontColor(Color.White).fontSize(14)
+          Text('发送').fontColor($r('app.color.text_inverse')).fontSize(14)
         }
         .width(44)
         .height(44)
-        .backgroundColor('#0066FF')
+        .backgroundColor($r('app.color.accent'))
         .borderRadius(22)
         .margin({ left: 12 })
         .onClick(() => this.sendMessage())
       }
       .width('100%')
       .padding(16)
-      .backgroundColor(Color.White)
-      .border({ width: 1, color: '#E2E8F0', style: BorderStyle.Solid }) // top border conceptually
-    }.width('100%').height('100%').backgroundColor('#FAFAFA')
+      .backgroundColor($r('app.color.bg_card'))
+      .border({ width: 1, color: $r('app.color.border_default'), style: BorderStyle.Solid }) // top border conceptually
+    }.width('100%').height('100%').backgroundColor($r('app.color.bg_aichat_page'))
   }
 
   sendMessage() {

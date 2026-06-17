@@ -3,6 +3,118 @@
     {
       "name": "start_window_background",
       "value": "#FFFFFF"
+    },
+    {
+      "name": "accent",
+      "value": "#0066FF"
+    },
+    {
+      "name": "bg_page",
+      "value": "#F5F7FA"
+    },
+    {
+      "name": "bg_card",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "bg_input",
+      "value": "#f2f4f7"
+    },
+    {
+      "name": "bg_ai_message",
+      "value": "#EDF2F7"
+    },
+    {
+      "name": "bg_user_message",
+      "value": "#0066FF"
+    },
+    {
+      "name": "bg_priority_high",
+      "value": "#ffdad6"
+    },
+    {
+      "name": "bg_priority_normal",
+      "value": "#dae1ff"
+    },
+    {
+      "name": "bg_logout",
+      "value": "#FEF2F2"
+    },
+    {
+      "name": "bg_avatar_icon",
+      "value": "#E2E8F0"
+    },
+    {
+      "name": "bg_time_badge",
+      "value": "#F5F7FA"
+    },
+    {
+      "name": "bg_assignee",
+      "value": "#e0e3e6"
+    },
+    {
+      "name": "bg_aichat_page",
+      "value": "#FAFAFA"
+    },
+    {
+      "name": "text_primary",
+      "value": "#1E293B"
+    },
+    {
+      "name": "text_secondary",
+      "value": "#64748B"
+    },
+    {
+      "name": "text_tertiary",
+      "value": "#94A3B8"
+    },
+    {
+      "name": "text_inverse",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "text_priority_high",
+      "value": "#ba1a1a"
+    },
+    {
+      "name": "text_priority_normal",
+      "value": "#0054d6"
+    },
+    {
+      "name": "text_logout",
+      "value": "#EF4444"
+    },
+    {
+      "name": "text_status_completed",
+      "value": "#10B981"
+    },
+    {
+      "name": "text_status_progress",
+      "value": "#F59E0B"
+    },
+    {
+      "name": "border_default",
+      "value": "#E2E8F0"
+    },
+    {
+      "name": "border_input",
+      "value": "#CBD5E1"
+    },
+    {
+      "name": "divider",
+      "value": "#E2E8F0"
+    },
+   {
+      "name": "tab_inactive",
+      "value": "#94A3B8"
+    },
+    {
+      "name": "shadow_card",
+      "value": "#0D000000"
+    },
+    {
+      "name": "shadow_fab",
+      "value": "#33000000"
     }
   ]
 }

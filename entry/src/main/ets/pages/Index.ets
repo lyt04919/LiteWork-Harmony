@@ -12,7 +12,7 @@ struct Index {
 
   aboutToAppear() {
     // Initialize TaskStore
-    const context = getContext(this) as common.UIAbilityContext;
+    const context = getContext() as common.UIAbilityContext;
     TaskStore.getInstance().init(context);
   }
 
@@ -40,10 +40,10 @@ struct Index {
       Image(icon)
         .width(24)
         .height(24)
-        .fillColor(this.currentIndex === targetIndex ? '#0066FF' : '#94A3B8')
+        .fillColor(this.currentIndex === targetIndex ? $r('app.color.accent') : $r('app.color.tab_inactive'))
         .margin({ bottom: 4 })
       Text(title)
-        .fontColor(this.currentIndex === targetIndex ? '#0066FF' : '#94A3B8')
+        .fontColor(this.currentIndex === targetIndex ? $r('app.color.accent') : $r('app.color.tab_inactive'))
         .fontSize(12)
         .fontWeight(this.currentIndex === targetIndex ? FontWeight.Bold : FontWeight.Normal)
     }.width('100%').height(56).justifyContent(FlexAlign.Center)
