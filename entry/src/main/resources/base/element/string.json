@@ -1,16 +1,16 @@
-{
+﻿{
   "string": [
     {
       "name": "module_desc",
-      "value": "module description"
+      "value": "LiteWork - 轻量团队任务协作"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "description"
+      "value": "LiteWork 任务管理"
     },
     {
       "name": "EntryAbility_label",
-      "value": "label"
+      "value": "LiteWork"
     }
   ]
 }
