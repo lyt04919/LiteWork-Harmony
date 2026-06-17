@@ -1,5 +1,5 @@
-import preferences from '@ohos.data.preferences';
-import common from '@ohos.app.ability.common';
+﻿import preferences from "@ohos.data.preferences";
+import common from "@ohos.app.ability.common";
 
 export interface Task {
   id: string;
@@ -7,12 +7,12 @@ export interface Task {
   description: string;
   assignee: string;
   dueDate: string;
-  priority: string; // "高优先级", "中优先级", "低优先级"
-  status: string; // "待办", "进行中", "已完成"
+  priority: string;
+  status: string;
 }
 
-const PREF_NAME = 'TaskPreferences';
-const TASK_KEY = 'TaskList';
+const PREF_NAME = "TaskPreferences";
+const TASK_KEY = "TaskList";
 
 export class TaskStore {
   private static instance: TaskStore;
@@ -34,7 +34,7 @@ export class TaskStore {
       this.initPromise = preferences.getPreferences(context, PREF_NAME).then(pref => {
         this.pref = pref;
       }).catch((err: Error) => {
-        console.error('Failed to init preferences', err);
+        console.error("Failed to init preferences", err);
       });
     }
     await this.initPromise;
@@ -44,12 +44,12 @@ export class TaskStore {
     if (this.initPromise) await this.initPromise;
     if (!this.pref) return [];
     try {
-      let tasksStr = await this.pref.get(TASK_KEY, '[]') as string;
+      let tasksStr = await this.pref.get(TASK_KEY, "[]") as string;
       let tasks = JSON.parse(tasksStr) as Task[];
-      AppStorage.setOrCreate('globalTasks', [...tasks]);
+      AppStorage.setOrCreate("globalTasks", [...tasks]);
       return tasks;
     } catch (err) {
-      console.error('Failed to get tasks', err);
+      console.error("Failed to get tasks", err);
       return [];
     }
   }
@@ -60,15 +60,20 @@ export class TaskStore {
     try {
       await this.pref.put(TASK_KEY, JSON.stringify(tasks));
       await this.pref.flush();
-      AppStorage.setOrCreate('globalTasks', [...tasks]);
+      AppStorage.setOrCreate("globalTasks", [...tasks]);
     } catch (err) {
-      console.error('Failed to save tasks', err);
+      console.error("Failed to save tasks", err);
     }
   }
 
   public async addTask(task: Task): Promise<void> {
     let tasks = await this.getTasks();
-    tasks.push(task);
+    // 高优先级任务插到最前，普通任务追加到末尾
+    if (task.priority === "高优先级") {
+      tasks.unshift(task);
+    } else {
+      tasks.push(task);
+    }
     await this.saveTasks(tasks);
   }
 

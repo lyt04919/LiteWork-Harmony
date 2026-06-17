@@ -46,7 +46,7 @@ export struct TaskBoard {
     );
   }
 
-  // ===== 拖拽排序核心 =====
+  // 拖拽排序核心
   performReorder(itemIndex: number, insertIndex: number): void {
     if (itemIndex === insertIndex) return;
 
@@ -79,6 +79,10 @@ export struct TaskBoard {
 
     this.tasks.splice(insertFullIdx, 0, dragged);
     TaskStore.getInstance().saveTasks(this.tasks);
+  }
+
+  clearDragState(): void {
+    this.draggingItemId = "";
   }
 
   async updateTaskStatus(task: Task, newStatus: string) {
@@ -186,6 +190,7 @@ export struct TaskBoard {
     .width("90%")
     .height("100%")
     .margin({ top: 16 })
+    .edgeEffect(EdgeEffect.Spring)
     .onItemDragStart((event: ItemDragInfo, itemIndex: number) => {
       let task = this.getFilteredTasks()[itemIndex];
       if (task) {
@@ -197,7 +202,7 @@ export struct TaskBoard {
       return this.dragPreviewCard;
     })
     .onItemDrop((event, itemIndex, insertIndex, isSuccess) => {
-      this.draggingItemId = "";
+      this.clearDragState();
       if (!isSuccess) return;
       this.performReorder(itemIndex, insertIndex);
     })
