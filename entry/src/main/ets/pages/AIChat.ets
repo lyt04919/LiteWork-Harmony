@@ -42,7 +42,6 @@ export struct AIChat {
 
   build() {
     Column() {
-      // Header
       Row() {
         Image($r("app.media.startIcon")).width(24).height(24).margin({ right: 16 })
         Column() {
@@ -55,7 +54,6 @@ export struct AIChat {
       
       Divider().color($r("app.color.border_default")).strokeWidth(1)
 
-      // Chat List
       Scroll(this.scroller) {
         Column({ space: 16 }) {
           Text("今天 10:24 AM").fontSize(12).fontColor($r("app.color.text_tertiary")).backgroundColor($r("app.color.bg_time_badge")).padding({ top: 4, bottom: 4, left: 12, right: 12 }).borderRadius(16).margin({ top: 16, bottom: 8 })
@@ -100,9 +98,8 @@ export struct AIChat {
         }.padding(16).width("100%")
       }.layoutWeight(1).align(Alignment.Top)
 
-      // Input area
       Row() {
-        Image($r("app.media.startIcon")).width(28).height(28).margin({ right: 12 })
+        Text("\u270E").fontSize(22).fontColor($r("app.color.text_tertiary")).margin({ right: 12 })
         TextInput({ placeholder: "问 LiteAI 任何任务相关的问题...", text: this.inputText })
           .layoutWeight(1)
           .height(44)
@@ -137,7 +134,6 @@ export struct AIChat {
     setTimeout(() => {
       this.scroller.scrollEdge(Edge.Bottom);
     }, 100);
-
     this.isLoading = true;
     this.requestAIResponse();
   }
@@ -195,12 +191,10 @@ ${summary}
   async requestAIResponse() {
     const appContext = await this.buildAppContext();
     const systemMessage = new ChatMessage("system", appContext);
-
     const contextMessages = [systemMessage, ...this.messages
       .filter(m => m.role !== "loading")
       .slice(-20)
       .map(m => new ChatMessage(m.role, m.content))];
-
     const appCtx = getContext().getApplicationContext();
 
     let httpRequest = http.createHttp();

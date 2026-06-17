@@ -96,7 +96,7 @@ export struct TaskBoard {
     Stack({ alignContent: Alignment.BottomEnd }) {
       Column() {
         Row() {
-          Image($r("app.media.startIcon")).width(24).height(24).margin({ right: 12 })
+          Text("\u2630").fontSize(22).fontColor($r("app.color.accent")).margin({ right: 12 })
           Text("任务看板").fontSize(24).fontWeight(FontWeight.Bold).fontColor($r("app.color.accent")).layoutWeight(1)
           Image($r("app.media.startIcon")).width(24).height(24).borderRadius(12)
         }.width("100%").padding(16).alignItems(VerticalAlign.Center)
@@ -277,3 +277,4 @@ export struct TaskBoard {
     })
   }
 }
+
