@@ -46,7 +46,7 @@ export class TaskStore {
     try {
       let tasksStr = await this.pref.get(TASK_KEY, '[]') as string;
       let tasks = JSON.parse(tasksStr) as Task[];
-      AppStorage.setOrCreate('globalTasks', tasks);
+      AppStorage.setOrCreate('globalTasks', [...tasks]);
       return tasks;
     } catch (err) {
       console.error('Failed to get tasks', err);
@@ -60,7 +60,7 @@ export class TaskStore {
     try {
       await this.pref.put(TASK_KEY, JSON.stringify(tasks));
       await this.pref.flush();
-      AppStorage.setOrCreate('globalTasks', tasks);
+      AppStorage.setOrCreate('globalTasks', [...tasks]);
     } catch (err) {
       console.error('Failed to save tasks', err);
     }

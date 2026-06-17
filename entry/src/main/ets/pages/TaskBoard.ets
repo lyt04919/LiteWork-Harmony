@@ -43,30 +43,38 @@ export struct TaskBoard {
     );
   }
 
-  onItemDragStart(event: ItemDragInfo, itemIndex: number): void {
-    return this.dragItem(this.getFilteredTasks()[itemIndex]);
-  }
 
-  @Builder dragItem(item: Task) {
-    Row() {
-      Text(item.title).fontSize(16).fontWeight(FontWeight.Bold)
-    }.width('100%').height(80).backgroundColor('#f2f4f7').borderRadius(12)
-  }
+
+
 
   onItemDrop(event: ItemDragInfo, itemIndex: number, insertIndex: number, isSuccess: boolean): void {
-    if (!isSuccess || insertIndex >= this.getFilteredTasks().length) return;
+    if (!isSuccess) return;
     
-    // Simple reorder logic within the same status list
     let filtered = this.getFilteredTasks();
+    if (itemIndex < 0 || itemIndex >= filtered.length) return;
     let draggedTask = filtered[itemIndex];
-    
-    // In actual app, you'd reorder the main `this.tasks` array, this is a simplified approach
     let originalDragIndex = this.tasks.findIndex(t => t.id === draggedTask.id);
-    let insertTask = filtered[insertIndex];
-    let originalInsertIndex = this.tasks.findIndex(t => t.id === insertTask.id);
+    if (originalDragIndex === -1) return;
 
     this.tasks.splice(originalDragIndex, 1);
-    this.tasks.splice(originalInsertIndex, 0, draggedTask);
+
+    if (insertIndex >= filtered.length) {
+      let lastTask = filtered[filtered.length - 1];
+      if (lastTask && lastTask.id !== draggedTask.id) {
+         let lastIndex = this.tasks.findIndex(t => t.id === lastTask.id);
+         this.tasks.splice(lastIndex + 1, 0, draggedTask);
+      } else {
+         this.tasks.push(draggedTask);
+      }
+    } else {
+      let insertTask = filtered[insertIndex];
+      let originalInsertIndex = this.tasks.findIndex(t => t.id === insertTask.id);
+      if (originalInsertIndex !== -1) {
+        this.tasks.splice(originalInsertIndex, 0, draggedTask);
+      } else {
+        this.tasks.push(draggedTask);
+      }
+    }
     
     TaskStore.getInstance().saveTasks(this.tasks);
   }
@@ -175,12 +183,14 @@ export struct TaskBoard {
         ListItem() {
           this.TaskCard(item)
         }
-      })
+      }, (item: Task) => item.id)
     }
     .width('90%')
     .height('100%')
     .margin({ top: 16 })
-    .onItemDragStart((event, itemIndex) => this.onItemDragStart(event, itemIndex))
+    .onItemDragStart((event: ItemDragInfo, itemIndex: number) => {
+      return this.TaskCard(this.getFilteredTasks()[itemIndex]);
+    })
     .onItemDrop((event, itemIndex, insertIndex, isSuccess) => this.onItemDrop(event, itemIndex, insertIndex, isSuccess))
   }
 
@@ -214,24 +224,7 @@ export struct TaskBoard {
     .border({ width: 1, color: '#E2E8F0' })
     .shadow({ radius: 8, color: 'rgba(0,0,0,0.05)', offsetY: 2 })
     .onClick(() => {
-      promptAction.showActionMenu({
-        title: '修改任务状态',
-        buttons: [
-          { text: '移动到 待办', color: '#1E293B' },
-          { text: '移动到 进行中', color: '#0066FF' },
-          { text: '移动到 已完成', color: '#10B981' }
-        ]
-      }).then((data: promptAction.ActionMenuSuccessResponse) => {
-        if (data.index === 0) {
-          this.updateTaskStatus(task, '待办');
-        } else if (data.index === 1) {
-          this.updateTaskStatus(task, '进行中');
-        } else if (data.index === 2) {
-          this.updateTaskStatus(task, '已完成');
-        }
-      }).catch((err: Error) => {
-        // User cancelled
-      });
+      router.pushUrl({ url: 'pages/CreateTask', params: { task: task } });
     })
   }
 }

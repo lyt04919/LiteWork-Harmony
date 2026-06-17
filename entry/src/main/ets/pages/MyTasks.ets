@@ -5,13 +5,18 @@ import promptAction from '@ohos.promptAction';
 @Entry
 @Component
 struct MyTasks {
-  @StorageLink('globalTasks') tasks: Task[] = [];
+  @StorageLink('globalTasks') @Watch('onTasksChange') tasks: Task[] = [];
+  @State filteredMyTasks: Task[] = [];
   
   // Mock current user
   private currentUser: string = '张伟';
 
-  get myTasks(): Task[] {
-    return (this.tasks || []).filter(t => t.assignee === this.currentUser);
+  onTasksChange() {
+    this.filteredMyTasks = (this.tasks || []).filter(t => t.assignee === this.currentUser);
+  }
+
+  aboutToAppear() {
+    this.onTasksChange();
   }
 
   build() {
@@ -26,13 +31,13 @@ struct MyTasks {
       
       Divider().color('#E2E8F0').strokeWidth(1)
 
-      if (this.myTasks.length === 0) {
+      if (this.filteredMyTasks.length === 0) {
         Column() {
           Text('暂无分配给我的任务').fontSize(16).fontColor('#94A3B8').margin({ top: 40 })
         }.width('100%').layoutWeight(1).alignItems(HorizontalAlign.Center)
       } else {
         List({ space: 16 }) {
-          ForEach(this.myTasks, (item: Task) => {
+          ForEach(this.filteredMyTasks, (item: Task) => {
             ListItem() {
               this.TaskCard(item)
             }
@@ -75,7 +80,7 @@ struct MyTasks {
     .border({ width: 1, color: '#E2E8F0' })
     .shadow({ radius: 8, color: 'rgba(0,0,0,0.05)', offsetY: 2 })
     .onClick(() => {
-      promptAction.showToast({ message: '任务详情开发中...', duration: 2000 })
+      router.pushUrl({ url: 'pages/CreateTask', params: { task: task } });
     })
   }
 }

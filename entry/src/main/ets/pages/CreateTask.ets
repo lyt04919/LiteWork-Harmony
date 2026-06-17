@@ -9,8 +9,29 @@ struct CreateTask {
   @State description: string = '';
   @State assignee: string = '选择团队成员';
   @State dueDate: string = 'mm/dd/yyyy';
+  @State priority: string = '普通';
+  @State status: string = '待办';
+  @State isEdit: boolean = false;
+  @State editTaskId: string = '';
 
   private assignees: string[] = ['张伟', '李娜', '王强', '赵敏'];
+  private priorities: string[] = ['普通', '高优先级'];
+  private statuses: string[] = ['待办', '进行中', '已完成'];
+
+  aboutToAppear() {
+    let params = router.getParams() as Record<string, Object>;
+    if (params && params['task']) {
+      let task = params['task'] as Task;
+      this.isEdit = true;
+      this.editTaskId = task.id;
+      this.title = task.title;
+      this.description = task.description || '';
+      this.assignee = task.assignee;
+      this.dueDate = task.dueDate;
+      this.priority = task.priority;
+      this.status = task.status;
+    }
+  }
 
   build() {
     Column() {
@@ -19,7 +40,7 @@ struct CreateTask {
         Image($r('app.media.startIcon')).width(24).height(24).onClick(() => {
           router.back();
         })
-        Text('新建任务').fontSize(24).fontWeight(FontWeight.Bold).fontColor('#0066FF').margin({ left: 16 }).layoutWeight(1)
+        Text(this.isEdit ? '编辑任务' : '新建任务').fontSize(24).fontWeight(FontWeight.Bold).fontColor('#0066FF').margin({ left: 16 }).layoutWeight(1)
         Text('帮助').fontSize(14).fontColor('#0066FF')
       }.width('100%').padding(16).alignItems(VerticalAlign.Center)
       
@@ -64,6 +85,42 @@ struct CreateTask {
               .border({ width: 1, color: '#CBD5E1' })
               .onSelect((index: number, value: string) => {
                 this.assignee = value;
+              })
+          }.alignItems(HorizontalAlign.Start).width('100%')
+
+          // Priority
+          Column({ space: 8 }) {
+            Text('优先级').fontSize(14).fontColor('#1E293B')
+            Select(this.priorities.map(p => ({ value: p } as SelectOption)))
+              .value(this.priority)
+              .font({ size: 16 })
+              .selectedOptionFont({ size: 16 })
+              .optionFont({ size: 16 })
+              .width('100%')
+              .height(48)
+              .backgroundColor(Color.White)
+              .borderRadius(12)
+              .border({ width: 1, color: '#CBD5E1' })
+              .onSelect((index: number, value: string) => {
+                this.priority = value;
+              })
+          }.alignItems(HorizontalAlign.Start).width('100%')
+
+          // Status
+          Column({ space: 8 }) {
+            Text('任务状态').fontSize(14).fontColor('#1E293B')
+            Select(this.statuses.map(s => ({ value: s } as SelectOption)))
+              .value(this.status)
+              .font({ size: 16 })
+              .selectedOptionFont({ size: 16 })
+              .optionFont({ size: 16 })
+              .width('100%')
+              .height(48)
+              .backgroundColor(Color.White)
+              .borderRadius(12)
+              .border({ width: 1, color: '#CBD5E1' })
+              .onSelect((index: number, value: string) => {
+                this.status = value;
               })
           }.alignItems(HorizontalAlign.Start).width('100%')
 
@@ -125,15 +182,19 @@ struct CreateTask {
       return;
     }
     const newTask: Task = {
-      id: Date.now().toString(),
+      id: this.isEdit ? this.editTaskId : Date.now().toString(),
       title: this.title,
       description: this.description,
       assignee: this.assignee === '选择团队成员' ? '未分配' : this.assignee,
       dueDate: this.dueDate === 'mm/dd/yyyy' ? '无' : this.dueDate,
-      priority: '普通', // Default
-      status: '待办'
+      priority: this.priority,
+      status: this.status
     };
-    await TaskStore.getInstance().addTask(newTask);
+    if (this.isEdit) {
+      await TaskStore.getInstance().updateTask(newTask);
+    } else {
+      await TaskStore.getInstance().addTask(newTask);
+    }
     router.back();
   }
 }

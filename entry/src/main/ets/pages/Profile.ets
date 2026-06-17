@@ -38,12 +38,9 @@ export struct Profile {
         Text('本周任务完成度').fontSize(16).fontColor('#1E293B').margin({ bottom: 24 }).width('100%').textAlign(TextAlign.Start)
         
         Stack() {
-          Progress({ value: this.completedCount, total: this.totalCount === 0 ? 1 : this.totalCount, type: ProgressType.Ring })
+          DataPanel({ values: [this.completedCount], max: this.totalCount === 0 ? 1 : this.totalCount, type: DataPanelType.Circle })
             .width(160)
             .height(160)
-            .color('#0066FF')
-            .backgroundColor('#EDF2F7')
-            .style({ strokeWidth: 16 })
           
           Column() {
             Text(`${this.completionRate}%`).fontSize(36).fontWeight(FontWeight.Bold).fontColor('#0066FF')
